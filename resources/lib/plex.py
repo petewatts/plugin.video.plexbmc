@@ -10,6 +10,7 @@ import requests
 from plexserver import PlexMediaServer
 import urlparse
 import uuid
+import socket
 
 printDebug=printDebug("PleXBMC", "plex")
 DEFAULT_PORT="32400"
@@ -490,6 +491,9 @@ class Plex:
         if ':' in ip:
             #We probably have an IP:port being passed
             ip, port = ip.split(':')
+
+        if not is_ip(ip):
+            ip = socket.gethostbyname(ip)
 
         if not is_ip(ip):
             printDebug.info("Not an IP Address")
